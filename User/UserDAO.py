@@ -6,7 +6,7 @@ class UserDAO:
         self.userdb = UserDB.UserDB()
 
     def addUser(self, user):
-        self.userdb.addUser(user.id, user.pw, user.name, user.phone, user.email, user.address)
+        self.userdb.users[user.id] = [user.pw, user.name, user.phone, user.email, user.address]
 
     def checkUser(self, id):
         if id in self.userdb.users:

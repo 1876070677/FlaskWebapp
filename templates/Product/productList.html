@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+    {% for product in productList %}
+    <hr>
+    <li>
+        <span>상품 이름: {{ product.name }} </span><br>
+        <span>가격: {{ product.price }} </span><br>
+        <span>설명: {{ product.description }} </span><br>
+        <span>구매 가능 수량: {{ product.quantity }} </span><br>
+    </li>
+    <hr>
+    {% endfor %}
+    </ul>
+    <form action="/" method="get">
+        <button type="submit", value="Home">홈으로</button>
+    </form>
+</body>
+</html>

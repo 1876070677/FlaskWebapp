@@ -1,9 +1,18 @@
 from flask import Flask, render_template, request, redirect, session
 from User import UserService, User
+from Product import ProductService, Product
 app = Flask(__name__)
 app.secret_key="ABCD"
 
 userService = UserService.UserService()
+productService = ProductService.ProductService()
+
+product1 = Product.Product(1, '[3단기장/Free/인생데님] 로킷 데님 와이드핏 롱 워싱 데님 팬츠 1color', 20400, '바지', 'bottom', 100)
+product2 = Product.Product(2, '[3단기장/Free/인생데님] 로킷 데님 와이드핏 롱 워싱 데님 팬츠 1color', 20400, '바지', 'bottom', 100)
+product3 = Product.Product(3, '[3단기장/Free/인생데님] 로킷 데님 와이드핏 롱 워싱 데님 팬츠 1color', 20400, '바지', 'bottom', 100)
+productService.addProduct(product1)
+productService.addProduct(product2)
+productService.addProduct(product3)
 
 @app.route('/')
 def hello():
@@ -18,14 +27,14 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 def register():
-    id = request.args.get('id')
-    password = request.args.get('password')
-    username = request.args.get('username')
-    phone = request.args.get('phone')
-    email = request.args.get('email')
-    address = request.args.get('address')
+    id = request.form.get('id')
+    password = request.form.get('password')
+    username = request.form.get('username')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    address = request.form.get('address')
 
     ## Validate ##
     if id == '' or password == '' or username == '' or phone == '':
@@ -45,10 +54,10 @@ def register():
 def viewLogin():
     return render_template('User/login.html')
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
-    id = request.args.get('id')
-    password = request.args.get('password')
+    id = request.form.get('id')
+    password = request.form.get('password')
 
     ## Validate ##
     if id == '' or password == '':
@@ -62,3 +71,10 @@ def login():
     session['id'] = user.id
     session['username'] = user.name
     return redirect('/')
+
+@app.route('/kind')
+def getProductsOfKind():
+    kind = request.args.get('kind')
+    products = productService.getProductsOfKind(kind)
+
+    return render_template('Product/productList.html', productList=products)

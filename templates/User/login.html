@@ -9,9 +9,9 @@
     {% if message != '' %}
         <span>{{message}}</span><br>
     {% endif %}
-    <form action="/login">
-        ID <input type="text" name="id" /><br>
-        PW <input type="password" name="password" /><br>
+    <form action="/login" method="post">
+        ID <input type="text" id="id" name="id" /><br>
+        PW <input type="password" id="password" name="password" /><br>
         <input type="submit" />
     </form>
 </body>
