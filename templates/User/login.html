@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Login page</h1>
+    {% if message != '' %}
+        <span>{{message}}</span><br>
+    {% endif %}
+    <form action="/login">
+        ID <input type="text" name="id" /><br>
+        PW <input type="password" name="password" /><br>
+        <input type="submit" />
+    </form>
+</body>
+</html>

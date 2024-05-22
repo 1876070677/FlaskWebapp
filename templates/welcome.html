@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>Jiwon's webapp</h1>
+    {% if session['username'] %}
+        <span>{{session['username']}} 님 환영합니다.</span><br>
+        <a href="/logout">로그아웃</a>
+    {% endif %}
+    {% if not session['username'] %}
+        <a href="/viewRegister">회원가입</a>
+        <a href="/viewLogin">로그인</a>
+    {% endif %}
+    <a href="/products/outer">Outer</a>
+    <a href="/products/top">Top</a>
+    <a href="/products/bottom">Bottom</a>
+    <a href="/products/acc">Acc</a>
+</body>
+</html>
