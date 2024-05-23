@@ -2,17 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/login.css') }}">
+    <title>Login</title>
 </head>
 <body>
-    <h1>Login page</h1>
-    {% if message != '' %}
-        <span>{{message}}</span><br>
-    {% endif %}
-    <form action="/login" method="post">
-        ID <input type="text" id="id" name="id" /><br>
-        PW <input type="password" id="password" name="password" /><br>
-        <input type="submit" />
-    </form>
+    <div class="login-page">
+      <div class="form">
+        <form class="login-form" action="/login" method="post">
+            {% if message != '' %}
+                <span>{{message}}</span><br>
+            {% endif %}
+          <input type="text" name="login_id" placeholder="id"/>
+          <input type="password" name="login_password" placeholder="password"/>
+          <button>login</button>
+          <p class="message">Not registered? <a href="/viewRegister">Create an account</a></p>
+            <p class="message">I want to go home.. <a href="/">Go home</a></p>
+        </form>
+      </div>
+    </div>
 </body>
 </html>

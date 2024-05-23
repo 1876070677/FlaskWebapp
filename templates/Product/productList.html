@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/products.css') }}">
+    <title>Products</title>
 </head>
 <body>
+<ul class="nav">
+      <li><a href="/">Home</a></li>
+      {% if session['username'] %}
+        <li><a>{{session['username']}} 님 환영합니다.</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/viewCart">Cart</a></li>
+      {% endif %}
+      {% if not session['username'] %}
+        <li><a href="/viewLogin">Login & Register</a></li>
+      {% endif %}
+
+      <li><a href="/products?kind=all">All products</a></li>
+      <li><a href="/products?kind=outer">Outer</a></li>
+      <li><a href="/products?kind=top">Top</a></li>
+      <li><a href="/products?kind=bottom">Bottom</a></li>
+      <li><a href="/products?kind=acc">Acc</a></li>
+  </ul>
     <ul>
     {% for product in productList %}
     <hr>
@@ -13,6 +31,13 @@
         <span>가격: {{ product.price }} </span><br>
         <span>설명: {{ product.description }} </span><br>
         <span>구매 가능 수량: {{ product.quantity }} </span><br>
+        {% if session['username'] %}
+            <form action="/addCart" method="post">
+                <input type="hidden" name="productId" value="{{ product.productId }}">
+                <input type="text" placeholder="quantity">
+                <button>Add Cart</button>
+            </form>
+        {% endif %}
     </li>
     <hr>
     {% endfor %}

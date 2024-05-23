@@ -7,5 +7,11 @@ class ProductService:
     def addProduct(self, product):
         self.productDao.addProduct(product)
 
-    def getProductsOfKind(self, kind):
-        return self.productDao.getProductsOfKind(kind)
+    def getProductsByKind(self, kind):
+        return self.productDao.getProductsByKind(kind)
+
+    def getAllProducts(self):
+        return self.productDao.getAllProducts()
+
+    def getProductById(self, id):
+        return self.productDao.getProductById(id)
