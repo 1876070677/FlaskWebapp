@@ -28,7 +28,7 @@
 
 .page {
   text-align: center;
-  width: 50%;
+  width: 100%;
 }
 
 .pagination {
@@ -36,6 +36,7 @@
   display: inline-block;
   padding: 0;
   margin-top: 20px;
+  text-align: center;
 }
 
 .pagination li {
@@ -80,44 +81,25 @@
 }
 
 .container {
+  width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
-  align-content: flex-start;
 }
 
-/* item에 hidden 처리하기. */
 .item {
-  width: calc(25% - 7px);
-  aspect-ratio: 6/3;
-  position: relative;
-  border-radius: 10px;
+  width: 25%;
+  flex: 1 1 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  overflow: hidden;
+  padding: 5px 5px
 }
 
-.textBox {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 20px;
+.textBox__description {
+  overflow: hidden;
 }
 
-.textBox p {
-  color: black;
-  margin: 5px 0 0;
-}
-
-.textBox__name {
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.textBox__price {
-  font-size: 16px;
-  font-weight: 400;
-}
-.textBox__input {
-  z-index:3
+.qt {
+  width: 30px;
 }

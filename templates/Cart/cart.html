@@ -44,13 +44,18 @@
                     <td class="td_width_2 price_td">{{ session['cart'][product]['price'] }}</td>
                     <td class="td_width_3 price_td">
                         <form action="/updateQuantity" method="post">
-<!--                            <input type="hidden" name="productId" value="{{ product }}">-->
+                            <input type="hidden" name="productId" value="{{ product }}">
                             <input type="number" name="quantity" value="{{ session['cart'][product]['quantity'] }}">
                             <button>변경</button>
                         </form>
                     </td>
                     <td class="td_width_2 table_text_align_center">{{ session['cart'][product]['totalPrice'] }}</td>
-                    <td class="td_width_3 table_text_align_center delete_btn"><button>삭제</button></td>
+                    <td class="td_width_3 table_text_align_center delete_btn">
+                        <form action="/deleteProduct" method="post">
+                            <input type="hidden" name="productId" value="{{ product }}">
+                            <button>삭제</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -61,7 +66,7 @@
                 <td></td>
                 <td></td>
                 <td>총 결제 예상 금액</td>
-                <td>{{ session['cart']['finalTotalPrice'] }}</td>
+                <td>{{ session['finalTotalPrice'] }}</td>
             </tr>
         </tbody>
     </table>

@@ -1,15 +1,17 @@
 from flask import Flask, render_template, request, redirect, session
-from User import UserService, User
-from Product import ProductService, Product
-import random
+from User import UserService
+from Product import ProductService
+from flask_cors import CORS
+
 app = Flask(__name__)
 app.secret_key="ABCD"
+CORS(app)
 
 userService = UserService.UserService()
 productService = ProductService.ProductService()
 
 def isAuthenticated():
-    if session['user']:
+    if 'user' in session:
         return True
     return False
 
@@ -154,22 +156,79 @@ def viewCart():
         session['cart'] = {}
     return render_template('/Cart/cart.html')
 
+def manageCart():
+    if not 'cart' in session:
+        session['cart'] = {}
+        return {}
+    cart = session['cart']
+    updateCart = {}
+    for product in cart:
+        updateCart[int(product)] = cart[product]
+
+    return updateCart
+
 @app.route('/addCart', methods=['POST'])
 def addCart():
     if not isAuthenticated():
         return redirect('/')
     productId = request.form.get('productId', type=int)
     quantity = request.form.get('quantity', type=int)
-    if not 'cart' in session:
-        session['cart'] = {}
 
-    product = productService.getProductById(productId, quantity)
-    session['cart'][product['id']] = quantity
+    # newCart 생성
+    updateCart = manageCart()
+
+    if productId not in updateCart:
+        product = productService.getProductById(productId, quantity)
+        updateCart[product['id']] = product
+    else:
+        updateCart[productId]['quantity'] += quantity
+        updateCart[productId]['totalPrice'] += (updateCart[productId]['price'] * quantity)
+    session.pop('cart')
+    session['cart'] = updateCart
+    finalTotalPrice = 0
     for product in session['cart']:
-        print(product)
-    print(session['cart'])
-    # finalTotalPrice = 0
-    # for product in session['cart']:
-    #     finalTotalPrice += int(session['cart'][product]['totalPrice'])
-    # session['cart']['finalTotalPrice'] = finalTotalPrice
+        finalTotalPrice += int(session['cart'][product]['totalPrice'])
+    session['finalTotalPrice'] = finalTotalPrice
     return redirect("/viewCart")
+
+@app.route('/updateQuantity', methods=['POST'])
+def updateQuantity():
+    if not isAuthenticated():
+        return redirect('/')
+    productId = request.form.get('productId', type=int)
+    quantity = request.form.get('quantity', type=int)
+
+    updateCart = manageCart()
+    updateCart[productId]['quantity'] = quantity
+    updateCart[productId]['totalPrice'] = updateCart[productId]['price'] * quantity
+
+    session.pop('cart')
+    session['cart'] = updateCart
+
+    finalTotalPrice = 0
+    for product in session['cart']:
+        finalTotalPrice += int(session['cart'][product]['totalPrice'])
+    session['finalTotalPrice'] = finalTotalPrice
+
+    return redirect("/viewCart")
+
+@app.route('/deleteProduct', methods=['POST'])
+def deleteProduct():
+    if not isAuthenticated():
+        return redirect('/')
+    productId = request.form.get('productId', type=int)
+
+    updateCart = manageCart()
+    del updateCart[productId]
+
+    session.pop('cart')
+    session['cart'] = updateCart
+
+    finalTotalPrice = 0
+    for product in session['cart']:
+        finalTotalPrice += int(session['cart'][product]['totalPrice'])
+    session['finalTotalPrice'] = finalTotalPrice
+
+    return redirect("/viewCart")
+
+application = app

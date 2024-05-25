@@ -28,12 +28,12 @@
     <div class="item">
         <div class="textBox">
             <p class="textBox__name"> {{ product['name'] }}</p>
-            <p class="textBox__price"> {{ product['price'] }}</p>
+            <p class="textBox__price"> {{ product['price'] }} 원</p>
             <p class="textBox__description"> {{ product['description'] }}</p>
             {% if session['user'] %}
                 <form class=textBox__input" action="/addCart" method="post">
                     <input type="hidden" name="productId" value="{{ product['id'] }}">
-                    <input type="number" name="quantity" value="1">
+                    <input class="qt" type="number" name="quantity" value="1">
                     <button>Add Cart</button>
                 </form>
             {% endif %}
