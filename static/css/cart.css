@@ -1,0 +1,40 @@
+table{
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+}
+
+th, td {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+caption {
+   visibility: hidden;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+
+.td_width_0 {
+    width: 20%;
+}
+
+.td_width_1 {
+    width: 20%;
+}
+
+.td_width_2 {
+    width: 10%;
+}
+
+.td_width_3 {
+    width: 5%;
+}
+
+form input {
+    width:30px;
+}

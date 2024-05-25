@@ -5,4 +5,3 @@ class Product:
         self.price = price
         self.description = description
         self.kind = kind
-        self.quantity = quantity

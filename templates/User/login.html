@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
     <title>Login</title>
 </head>
 <body>
+    <ul>
+      <li><a href="/">Home</a></li>
+      {% if session['user'] %}
+        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/viewCart">Cart</a></li>
+      {% endif %}
+      {% if not session['user'] %}
+        <li><a href="/viewLogin">Login & Register</a></li>
+      {% endif %}
+
+      <li><a href="/products?category=all">All products</a></li>
+      <li><a href="/products?category=OUTER">Outer</a></li>
+      <li><a href="/products?category=TOP">Top</a></li>
+      <li><a href="/products?category=BOTTOM">Bottom</a></li>
+      <li><a href="/products?category=ACC">Acc</a></li>
+  </ul>
     <div class="login-page">
       <div class="form">
         <form class="login-form" action="/login" method="post">
