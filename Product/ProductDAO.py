@@ -1,29 +1,62 @@
-from Product import ProductDB
+from DBConnect import DBConnect
 from Product import Product
 
 class ProductDAO:
     def __init__(self):
-        self.productdb = ProductDB.ProductDB()
+        self.dbConnect = DBConnect.DBConnect()
+        self.GET_CATEGORYID = "select id from category where name=%s"
+        self.GET_COUNT_BY_CATEGORY = "select count(*) as count from product where categoryid=%s"
+        self.GET_PRODUCTS_BY_CATEGORY = "select * from product where categoryid=%s limit 15 offset %s"
+        self.GET_COUNT = "select count(*) as count from product"
+        self.GET_ALL_PRODUCTS = "select * from product limit 15 offset %s"
+        self.GET_PRODUCT = "select * from product where id=%s"
 
-    def addProduct(self, product):
-        self.productdb.products[product.productId] = [product.name, product.price, product.description, product.kind, product.quantity]
+    def getProductsByCategory(self, category, page):
+        connection = self.dbConnect.getConnection()
+        cursor = connection.cursor(dictionary=True)
 
-    def getProductsByKind(self, kind):
-        products = []
-        for product in self.productdb.products:
-            if self.productdb.products[product][3] == kind:
-                products.append(Product.Product(product, self.productdb.products[product][0], self.productdb.products[product][1], self.productdb.products[product][2], self.productdb.products[product][3], self.productdb.products[product][4]))
+        # 카테고리 아이디 가져오기
+        cursor.execute(self.GET_CATEGORYID, (category, ))
+        categoryId = cursor.fetchone()
 
-        return products
+        # 데이터 수 가져오기
+        cursor.execute(self.GET_COUNT_BY_CATEGORY, (categoryId['id'], ))
+        count = cursor.fetchone()['count']
 
-    def getAllProducts(self):
-        products = []
-        for product in self.productdb.products:
-            products.append(Product.Product(product, self.productdb.products[product][0], self.productdb.products[product][1], self.productdb.products[product][2], self.productdb.products[product][3], self.productdb.products[product][4]))
+        # 실제 데이터 가져오기
+        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 10, ))
+        products = cursor.fetchall()
 
-        return products
+        cursor.close()
+        connection.close()
+
+        return products, count
+
+    def getAllProducts(self, page):
+        connection = self.dbConnect.getConnection()
+        cursor = connection.cursor(dictionary=True)
+
+        # 데이터 수 가져오기
+        cursor.execute(self.GET_COUNT)
+        count = cursor.fetchone()['count']
+
+        # 실제 데이터 가져오기
+        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 10,))
+        products = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        return products, count
 
     def getProductById(self, id):
-        for product in self.productdb.products:
-            if product == id:
-                return Product.Product(product, self.productdb.products[product][0], self.productdb.products[product][1], self.productdb.products[product][2], self.productdb.products[product][3], self.productdb.products[product][4])
+        connection = self.dbConnect.getConnection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(self.GET_PRODUCT, (id, ))
+        product = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        return product

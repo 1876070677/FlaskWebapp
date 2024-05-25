@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/login.css') }}">
+    <title>UserInfo</title>
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
-    <title>Register</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
     <ul>
@@ -26,18 +26,18 @@
   </ul>
     <div class="login-page">
       <div class="form">
-        <form class="register-form" action="/register" method="post">
+        <form class="register-form" action="/updateUserInfo" method="post">
             {% if message != '' %}
                 <span>{{message}}</span><br>
             {% endif %}
-          <input type="text" name="id" placeholder="id"/>
+          <input type="text" name="id" placeholder="id" value="{{ session['user'].id }}" readonly/>
           <input type="password" name="password" placeholder="password"/>
-          <input type="text" name="username" placeholder="username"/>
-            <input type="text" name="phone" placeholder="phone"/>
-            <input type="text" name="email" placeholder="email"/>
-            <input type="text" name="address" placeholder="address"/>
-          <button>create</button>
-          <p class="message">Already registered? <a href="/viewLogin">Sign In</a></p>
+          <input type="text" name="username" placeholder="username" value="{{ session['user'].name }}"/>
+            <input type="text" name="phone" placeholder="phone" value="{{ session['user'].phone }}"/>
+            <input type="text" name="email" placeholder="email" value="{{ session['user'].email }}"/>
+            <input type="text" name="address" placeholder="address" value="{{ session['user'].address }}"/>
+          <button>Update</button>
+          <p class="message">Delete account <a href="/deleteUser">Delete</a></p>
         </form>
       </div>
     </div>

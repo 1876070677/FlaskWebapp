@@ -7,43 +7,64 @@
 </head>
 <body>
 <ul class="nav">
-      <li><a href="/">Home</a></li>
-      {% if session['username'] %}
-        <li><a>{{session['username']}} 님 환영합니다.</a></li>
+    <li><a href="/">Home</a></li>
+      {% if session['user'] %}
+        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
         <li><a href="/logout">Logout</a></li>
         <li><a href="/viewCart">Cart</a></li>
       {% endif %}
-      {% if not session['username'] %}
+      {% if not session['user'] %}
         <li><a href="/viewLogin">Login & Register</a></li>
       {% endif %}
 
-      <li><a href="/products?kind=all">All products</a></li>
-      <li><a href="/products?kind=outer">Outer</a></li>
-      <li><a href="/products?kind=top">Top</a></li>
-      <li><a href="/products?kind=bottom">Bottom</a></li>
-      <li><a href="/products?kind=acc">Acc</a></li>
+      <li><a href="/products?category=all">All products</a></li>
+      <li><a href="/products?category=OUTER">Outer</a></li>
+      <li><a href="/products?category=TOP">Top</a></li>
+      <li><a href="/products?category=BOTTOM">Bottom</a></li>
+      <li><a href="/products?category=ACC">Acc</a></li>
   </ul>
-    <ul>
+<div class="container">
     {% for product in productList %}
-    <hr>
-    <li>
-        <span>상품 이름: {{ product.name }} </span><br>
-        <span>가격: {{ product.price }} </span><br>
-        <span>설명: {{ product.description }} </span><br>
-        <span>구매 가능 수량: {{ product.quantity }} </span><br>
-        {% if session['username'] %}
-            <form action="/addCart" method="post">
-                <input type="hidden" name="productId" value="{{ product.productId }}">
-                <input type="text" placeholder="quantity">
-                <button>Add Cart</button>
-            </form>
-        {% endif %}
-    </li>
-    <hr>
+    <div class="item">
+        <div class="textBox">
+            <p class="textBox__name"> {{ product['name'] }}</p>
+            <p class="textBox__price"> {{ product['price'] }}</p>
+            <p class="textBox__description"> {{ product['description'] }}</p>
+            {% if session['user'] %}
+                <form class=textBox__input" action="/addCart" method="post">
+                    <input type="hidden" name="productId" value="{{ product['id'] }}">
+                    <input type="number" name="quantity" value="1">
+                    <button>Add Cart</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
-    </ul>
-    <form action="/" method="get">
-        <button type="submit", value="Home">홈으로</button>
-    </form>
+</div>
+    <div class="page">
+        <ul class="pagination modal">
+            {% if currentPage > 1 %}
+            <li>
+                <a class="arrow left" href="/products?category={{ category }}&page={{ currentPage-1 }}">이전</a>
+            </li>
+            {% endif %}
+            {% for page in range(pageFirst, pageEnd + 1) %}
+                {% if currentPage != page %}
+                <li>
+                    <a class="num" href="/products?category={{ category }}&page={{ page }}">{{ page }}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a class="active num" href="/products?category={{ category }}&page={{ page }}">{{ page }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if currentPage < end %}
+            <li>
+                <a class="arrow right" href="/products?category={{ category }}&page={{ currentPage+1 }}">다음</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
 </body>
 </html>

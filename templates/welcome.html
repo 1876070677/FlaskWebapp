@@ -9,20 +9,20 @@
   <h1>Jiwon's webapp</h1>
   <ul>
       <li><a href="/">Home</a></li>
-      {% if session['username'] %}
-        <li><a>{{session['username']}} 님 환영합니다.</a></li>
+      {% if session['user'] %}
+        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
         <li><a href="/logout">Logout</a></li>
         <li><a href="/viewCart">Cart</a></li>
       {% endif %}
-      {% if not session['username'] %}
+      {% if not session['user'] %}
         <li><a href="/viewLogin">Login & Register</a></li>
       {% endif %}
 
-      <li><a href="/products?kind=all">All products</a></li>
-      <li><a href="/products?kind=outer">Outer</a></li>
-      <li><a href="/products?kind=top">Top</a></li>
-      <li><a href="/products?kind=bottom">Bottom</a></li>
-      <li><a href="/products?kind=acc">Acc</a></li>
+      <li><a href="/products?category=all">All products</a></li>
+      <li><a href="/products?category=OUTER">Outer</a></li>
+      <li><a href="/products?category=TOP">Top</a></li>
+      <li><a href="/products?category=BOTTOM">Bottom</a></li>
+      <li><a href="/products?category=ACC">Acc</a></li>
   </ul>
     <div class="hero">
         <div class="container">
