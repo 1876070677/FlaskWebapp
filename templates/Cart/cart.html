@@ -24,6 +24,7 @@
       <li><a href="/products?category=BOTTOM">Bottom</a></li>
       <li><a href="/products?category=ACC">Acc</a></li>
   </ul>
+    <div><span>{{ message }}</span></div>
 <div class="content_subject">
     <table class="subject_table">
         <tbody>
@@ -64,9 +65,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td>총 결제 예상 금액</td>
                 <td>{{ session['finalTotalPrice'] }}</td>
+                <td><button type="submit" onclick="location.href='/createOrder'">주문</button></td>
             </tr>
         </tbody>
     </table>
