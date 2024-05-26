@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Order</title>
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
-    <title>Welcome</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/order.css') }}">
 </head>
 <body>
-  <h1>5조 - webapp</h1>
-  <ul>
-      <li><a href="/">Home</a></li>
+    <ul class="nav">
+    <li><a href="/static">Home</a></li>
       {% if session['user'] %}
         <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
         <li><a href="/logout">Logout</a></li>
@@ -24,16 +24,22 @@
       <li><a href="/products?category=BOTTOM">Bottom</a></li>
       <li><a href="/products?category=ACC">Acc</a></li>
   </ul>
-    <div class="hero">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-7">
-                    <div class="hero-img-wrap">
-                        <img src="{{ url_for('static', filename='images/main_img.png') }}">
-                    </div>
-                </div>
-            </div>
+    <h2>주문 내역</h2>
+<div class="container">
+    <div class="item-list">
+        <div class="item-caption">
+            <div class="item-detail"><p>주문 날짜</p></div>
+            <div class="item-detail"><p>결제 금액</p></div>
         </div>
+        <hr class="caption-hr">
+        {% for order in sequence %}
+        <div class="item">
+            <div class="item-detail"><p>{{ order['orderdate'] }}</p></div>
+            <div class="item-detail"><a href="/viewOrderDetail?seq={{ order['id'] }}"><p>{{ order['finaltotalprice'] }}</p></a></div>
+        </div>
+        <hr class="item-hr">
+        {% endfor %}
     </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/order.css') }}">
+</head>
+<body>
+    <ul class="nav">
+    <li><a href="/static">Home</a></li>
+      {% if session['user'] %}
+        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/viewCart">Cart</a></li>
+      {% endif %}
+      {% if not session['user'] %}
+        <li><a href="/viewLogin">Login & Register</a></li>
+      {% endif %}
+
+      <li><a href="/products?category=all">All products</a></li>
+      <li><a href="/products?category=OUTER">Outer</a></li>
+      <li><a href="/products?category=TOP">Top</a></li>
+      <li><a href="/products?category=BOTTOM">Bottom</a></li>
+      <li><a href="/products?category=ACC">Acc</a></li>
+  </ul>
+    <h2>주 문 서</h2>
+<div class="container">
+    <div class="item-list">
+        <div class="item-caption">
+            <div class="item-detail"><p>상품 이름</p></div>
+            <div class="item-detail"><p>상품 가격</p></div>
+            <div class="item-detail"><p>구매 수량</p></div>
+            <div class="item-detail"><p>합계 </p></div>
+        </div>
+        <hr class="caption-hr">
+        {% for product in session['cart'] %}
+        <div class="item">
+            <div class="item-detail"><p>{{ session['cart'][product]['name'] }}</p></div>
+            <div class="item-detail"><p>{{ session['cart'][product]['price'] }}</p></div>
+            <div class="item-detail"><p>{{session['cart'][product]['quantity'] }}</p></div>
+            <div class="item-detail"><p>{{ session['cart'][product]['totalPrice'] }}</p></div>
+        </div>
+        <hr class="item-hr">
+        {% endfor %}
+        <div class="item">
+            <div class="item-detail"><p></p></div>
+            <div class="item-detail"><p></p></div>
+            <div class="item-detail-total"><p>총 합계</p></div>
+            <div class="item-detail-total"><p>{{ session['finalTotalPrice'] }}</p></div>
+        </div>
+    </div>
+    <h2>주문자 정보</h2>
+    <div class="item-list">
+        <div class="item-caption">
+            <div class="item-detail"><p>이름</p></div>
+            <div class="item-detail"><p>전화번호</p></div>
+            <div class="item-detail"><p>이메일</p></div>
+            <div class="item-detail"><p>배송지</p></div>
+        </div>
+        <form action="/createOrder" method="post">
+            <div class="item">
+                    <input type="hidden" name="id" value="{{ session['user']['id'] }}">
+                    <div class="item-detail-input"><input type="text" name="username" value="{{ session['user']['name'] }}"></div>
+                    <div class="item-detail-input"><input type="text" name="phone" value="{{ session['user']['phone'] }}"></div>
+                    <div class="item-detail-input"><input type="text" name="email" value="{{ session['user']['email'] }}"></div>
+                    <div class="item-detail-input"><input type="text" name="address" value="{{ session['user']['address'] }}"></div>
+            </div>
+            <div class="item">
+                <div class="item-detail"><p></p></div>
+                <div class="item-detail"><p></p></div>
+                <div class="item-detail-total"><p></p></div>
+                <div class="item-detail-total"><p><button>주문하기</button></p></div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
