@@ -34,6 +34,31 @@ def createOrder():
 
     cart = cartService.sessionToCartDict(session['cart'])
 
-    orderService.createOrder(id, username, phone, email, address, cart)
+    sequenceId = orderService.createOrder(id, username, phone, email, address, cart, session['finalTotalPrice'])
 
-    return render_template('Order/viewOrderDetail')
+    return redirect(f'/viewOrderDetail?seq={sequenceId}')
+
+@bp.route('/viewOrderDetail')
+def viewOrderDetail():
+    if not us.isAuthenticated():
+        return redirect('/')
+    sequenceId = request.args.get('seq', type=int)
+    if sequenceId is None:
+        return redirect('/viewOrderHistory')
+    sequence = orderService.permissionCheck(session['user']['id'], sequenceId)
+
+    if not sequence:
+        return redirect('/')
+
+    orderDetails = orderService.getOrderDetails(sequence['id'])
+
+    return render_template('Order/orderDetails.html', sequence=sequence, orderDetails=orderDetails)
+
+@bp.route('/viewOrderHistory')
+def viewOrderHistory():
+    if not us.isAuthenticated():
+        return redirect('/')
+
+    sequence = orderService.getSequences(session['user']['id'])
+
+    return render_template('Order/orderHistory.html', sequence=sequence)
