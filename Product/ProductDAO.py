@@ -1,4 +1,4 @@
-from DBConnnect import DBConnect
+from DBConnect import DBConnect
 
 class ProductDAO:
     def __init__(self):

@@ -1,4 +1,4 @@
-from DBConnnect import DBConnect
+from DBConnect import DBConnect
 from datetime import datetime
 
 class OrderDAO:
