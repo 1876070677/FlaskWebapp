@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from User import UserService
 from Product import ProductService
+from Cart import CartService
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -9,6 +10,7 @@ CORS(app)
 
 userService = UserService.UserService()
 productService = ProductService.ProductService()
+cartService = CartService.CartService()
 
 def isAuthenticated():
     if 'user' in session:
@@ -38,6 +40,7 @@ def register():
     phone = request.form.get('phone').strip()
     email = request.form.get('email').strip()
     address = request.form.get('address').strip()
+
     ## Validate ##
     if len(id) == 0 or len(password) == 0 or len(username) == 0 or len(phone) == 0:
         return render_template('User/register.html', message='필수 정보를 입력해주세요 (id, pw, username, phone)')
@@ -45,8 +48,7 @@ def register():
     if userService.checkUser(id):
         return render_template('User/register.html', message='중복된 id를 입력하였습니다')
 
-    userService.addUser(id, password, username, phone, email, address)
-    user = userService.login(id, password)
+    user = userService.addUser(id, password, username, phone, email, address)
 
     session['user'] = user
     return redirect('/')
@@ -93,8 +95,7 @@ def updateUserInfo():
     if len(id) == 0 or len(password) == 0 or len(username) == 0 or len(phone) == 0:
         return render_template('User/userInfo.html', message='필수 정보를 입력해주세요 (pw, username, phone)')
 
-    userService.updateUserInfo(id, password, username, phone, email, address)
-    user = userService.login(id, password)
+    user = userService.updateUserInfo(id, password, username, phone, email, address)
     session.clear()
 
     session['user'] = user
@@ -122,42 +123,20 @@ def getProducts():
         return redirect('/products?kind=all')
     if page is None:
         page = 1
-    if category == 'all':
-        products, count = productService.getAllProducts(page)
-        end = count // 15 + 1
-        if page - 5 < 1:
-            pageFirst = 1
-        else:
-            pageFirst = page - 5
+    products, pageFirst, pageEnd, end, = productService.getProductsByCategory(category, page)
 
-        if page + 5 > end:
-            pageEnd = end
-        else:
-            pageEnd = page + 5
-    else:
-        products, count = productService.getProductsByCategory(category, page)
-        end = count // 15 + 1
-        if page - 5 < 1:
-            pageFirst = 1
-        else:
-            pageFirst = page - 5
-
-        if page + 5 > end:
-            pageEnd = end
-        else:
-            pageEnd = page + 5
     return render_template('Product/productList.html', currentPage=page, category=category, pageFirst=pageFirst, pageEnd=pageEnd, end=end, productList=products)
 
 @app.route('/viewCart')
 def viewCart():
     if not isAuthenticated():
         return redirect('/')
-    if not 'cart' in session:
+    if 'cart' not in session:
         session['cart'] = {}
     return render_template('/Cart/cart.html')
 
 def manageCart():
-    if not 'cart' in session:
+    if 'cart' not in session:
         session['cart'] = {}
         return {}
     cart = session['cart']
@@ -174,21 +153,14 @@ def addCart():
     productId = request.form.get('productId', type=int)
     quantity = request.form.get('quantity', type=int)
 
-    # newCart 생성
-    updateCart = manageCart()
+    if ('cart') not in session:
+        session['cart'] = {}
 
-    if productId not in updateCart:
-        product = productService.getProductById(productId, quantity)
-        updateCart[product['id']] = product
-    else:
-        updateCart[productId]['quantity'] += quantity
-        updateCart[productId]['totalPrice'] += (updateCart[productId]['price'] * quantity)
+    cart, finalTotalPrice = cartService.addCart(session['cart'], productId, quantity)
     session.pop('cart')
-    session['cart'] = updateCart
-    finalTotalPrice = 0
-    for product in session['cart']:
-        finalTotalPrice += int(session['cart'][product]['totalPrice'])
+    session['cart'] = cart
     session['finalTotalPrice'] = finalTotalPrice
+
     return redirect("/viewCart")
 
 @app.route('/updateQuantity', methods=['POST'])
@@ -198,16 +170,14 @@ def updateQuantity():
     productId = request.form.get('productId', type=int)
     quantity = request.form.get('quantity', type=int)
 
-    updateCart = manageCart()
-    updateCart[productId]['quantity'] = quantity
-    updateCart[productId]['totalPrice'] = updateCart[productId]['price'] * quantity
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    cart, finalTotalPrice = cartService.updateQuantity(session['cart'], productId, quantity)
 
     session.pop('cart')
-    session['cart'] = updateCart
+    session['cart'] = cart
 
-    finalTotalPrice = 0
-    for product in session['cart']:
-        finalTotalPrice += int(session['cart'][product]['totalPrice'])
     session['finalTotalPrice'] = finalTotalPrice
 
     return redirect("/viewCart")
@@ -218,17 +188,11 @@ def deleteProduct():
         return redirect('/')
     productId = request.form.get('productId', type=int)
 
-    updateCart = manageCart()
-    del updateCart[productId]
+    cart, finalTotalPrice = cartService.deleteProduct(session['cart'], productId)
 
     session.pop('cart')
-    session['cart'] = updateCart
+    session['cart'] = cart
 
-    finalTotalPrice = 0
-    for product in session['cart']:
-        finalTotalPrice += int(session['cart'][product]['totalPrice'])
     session['finalTotalPrice'] = finalTotalPrice
 
     return redirect("/viewCart")
-
-application = app
