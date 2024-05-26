@@ -29,14 +29,24 @@ CREATE TABLE product (
     FOREIGN KEY (categoryid) REFERENCES category(id)
 ) ENGINE=INNODB;
 
+CREATE TABLE ship_address (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    shipname VARCHAR(32) NOT NULL,
+    shipphone VARCHAR(32) NOT NULL,
+    shipemail VARCHAR(32) NOT NULL,
+    shipaddress VARCHAR(32) NOT NULL
+) ENGINE=INNODB;
+
 CREATE TABLE order_history (
     id INT PRIMARY KEY AUTO_INCREMENT,
     userid VARCHAR(32) NOT NULL,
     productid INT NOT NULL,
+    shipid INT NOT NULL,
     quantity INT NOT NULL,
     totalPrice INT NOT NULL,
     FOREIGN KEY (userid) REFERENCES user(id),
-    FOREIGN KEY (productid) REFERENCES product(id)
+    FOREIGN KEY (productid) REFERENCES product(id),
+    FOREIGN KEY (shipid) REFERENCES ship_address(id)
 ) ENGINE=INNODB;
 
 INSERT INTO category(name) values ('OUTER');
