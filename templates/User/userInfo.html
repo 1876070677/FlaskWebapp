@@ -37,7 +37,8 @@
             <input type="text" name="email" placeholder="email" value="{{ session['user'].email }}"/>
             <input type="text" name="address" placeholder="address" value="{{ session['user'].address }}"/>
           <button>Update</button>
-          <p class="message">Delete account <a href="/deleteUser">Delete</a></p>
+            <p class="message">My <a href="/viewOrderHistory">orders</a></p>
+          <p class="message">Delete account? <a href="/deleteUser">Delete</a></p>
         </form>
       </div>
     </div>
