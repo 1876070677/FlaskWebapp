@@ -1,6 +1,6 @@
 # 초기 설정
 레포지토리에 DBConnect/DBConnect.py 파일을 생성해주세요.
-```angular2html
+```python
 from mysql.connector import pooling
 import mysql.connector
 class DBConnect():
@@ -24,7 +24,9 @@ class DBConnect():
     def getConnection(self):
         return self.pool.get_connection()
 ```
-다음과 같이 작성하고, host, user, password는 개발자에게 문의해주세요.
+원격 DB를 사용하려면 다음과 같이 작성하고, host, user, password는 개발자에게 문의해주세요.
+
+그게 아니라면 mysql을 설치하고 데이터베이스를 생성한 뒤, Database 디렉토리의 스키마를 바탕으로 테이블들을 구성해주세요. 이후, 해당 DB 정보를 사용하시면 됩니다.
 
 # 실행
 파이썬 인터프리터를 설정하고 requirements.txt에 적혀있는 패키지들을 설치해주세요.
