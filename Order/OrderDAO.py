@@ -1,5 +1,5 @@
 from DBConnect import DBConnect
-from datetime import datetime
+from Order import Order, Sequence
 
 class OrderDAO:
     def __init__(self):
@@ -9,25 +9,23 @@ class OrderDAO:
         self.LAST_INSERTED_ID = "select last_insert_id() as %s"
         self.PERMISSION_CHECK = "select * from order_sequence where id=%s and userid=%s"
         self.GET_ORDER_DETAILS = "select order_details.*, product.name, product.price from order_details, product where order_details.orderid=%s and order_details.productid=product.id"
-        self.GET_SEQUENCES = "select id, orderdate, finaltotalprice from order_sequence where userid=%s"
+        self.GET_SEQUENCES = "select * from order_sequence where userid=%s"
 
-    def addOrderDetails(self, sequenceId, productId, quantity, totalPrice):
+    def addOrderDetails(self, order):
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.ADD_ORDER_DETAILS, (sequenceId, productId, quantity, totalPrice, ))
+        cursor.execute(self.ADD_ORDER_DETAILS, (order.orderId, order.productId, order.quantity, order.totalPrice, ))
         connection.commit()
 
         cursor.close()
         connection.close()
 
-    def createOrder(self, id, name, phone, email, address, finalTotalPrice):
-        currenttime = datetime.today().strftime("%Y%m%d%H%M%S")
-
+    def createOrder(self, sequence):
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.CREATE_ORDER, (id, currenttime, name, phone, email, address, finalTotalPrice, ))
+        cursor.execute(self.CREATE_ORDER, (sequence.id, sequence.orderdate, sequence.shipname, sequence.shipphone, sequence.shipemail, sequence.shipaddress, sequence.finalTotalPrice, ))
         connection.commit()
 
         cursor.execute(self.LAST_INSERTED_ID, ('sequenceid', ))
@@ -62,7 +60,10 @@ class OrderDAO:
         cursor.close()
         connection.close()
 
-        return order_details
+        orderList = []
+        for order in order_details:
+            orderList.append(Order.Order(order['orderid'], order['productid'], order['quantity'], order['totalprice'], order['name'], order['price']))
+        return orderList
 
     def getSequences(self, userid):
         connection = self.dbConnect.getConnection()
@@ -74,4 +75,8 @@ class OrderDAO:
         cursor.close()
         connection.close()
 
-        return sequences
+        sequenceList = []
+        for sequence in sequences:
+            sequenceList.append(Sequence.Sequence(sequence['id'], sequence['orderdate'], sequence['shipname'], sequence['shipphone'], sequence['shipemail'], sequence['shipaddress'], sequence['finaltotalprice']))
+
+        return sequenceList

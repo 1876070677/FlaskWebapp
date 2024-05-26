@@ -32,9 +32,15 @@ def createOrder():
     email = request.form.get('email').strip()
     address = request.form.get('address').strip()
 
+    if len(username) == 0 or len(phone) == 0 or len(email) == 0 or len(address) == 0:
+        return redirect('/viewOrder')
+
     cart = cartService.sessionToCartDict(session['cart'])
 
     sequenceId = orderService.createOrder(id, username, phone, email, address, cart, session['finalTotalPrice'])
+
+    session.pop('cart')
+    session.pop('finalTotalPrice')
 
     return redirect(f'/viewOrderDetail?seq={sequenceId}')
 

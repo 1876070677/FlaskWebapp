@@ -22,8 +22,9 @@ class CartService:
         cart = self.sessionToCartDict(sessionData)
 
         if productId not in cart:
-            product = self.productService.getProductById(productId, quantity)
-            cart[product['id']] = product
+            cartProduct = self.productService.getProductById(productId, quantity)
+            cartProduct = cartProduct.toDict()
+            cart[cartProduct['id']] = cartProduct
         else:
             cart[productId]['quantity'] += quantity
             cart[productId]['totalPrice'] += (cart[productId]['price'] * quantity)

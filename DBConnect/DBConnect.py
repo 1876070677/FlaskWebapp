@@ -11,11 +11,11 @@ class DBConnect():
             pool_name='db_pool',
             pool_size=10,
             pool_reset_session=True,
-            host='',
+            host='shbox.kr',
             port=9000,
-            database='',
-            user='',
-            password='',
+            database='jiwonshop',
+            user='root',
+            password='root',
         )
 
     def getConnection(self):
