@@ -1,4 +1,5 @@
 from Product import ProductDAO
+from Cart import CartProduct
 
 class ProductService:
     def __init__(self):
@@ -6,7 +7,7 @@ class ProductService:
 
     def getProductsByCategory(self, category, page):
         if category == 'all':
-            products, count = self.productDao.getAllProducts(page)
+            productList, count = self.productDao.getAllProducts(page)
             end = count // 15 + 1
             if page - 5 < 1:
                 pageFirst = 1
@@ -18,7 +19,7 @@ class ProductService:
             else:
                 pageEnd = page + 5
         else:
-            products, count = self.productDao.getProductsByCategory(category, page)
+            productList, count = self.productDao.getProductsByCategory(category, page)
             end = count // 15 + 1
             if page - 5 < 1:
                 pageFirst = 1
@@ -29,10 +30,13 @@ class ProductService:
                 pageEnd = end
             else:
                 pageEnd = page + 5
+        products = []
+        for product in productList:
+            productDic = product.toDict()
+            products.append(productDic)
         return products, pageFirst, pageEnd, end
 
     def getProductById(self, id, quantity):
         product = self.productDao.getProductById(id)
-        product['quantity'] = quantity
-        product['totalPrice'] = int(product['price']) * quantity
-        return product
+        cartProduct = CartProduct.CartProduct(product.id, product.name, product.price, product.description, product.categoryid, quantity, int(product.price) * quantity)
+        return cartProduct
