@@ -7,6 +7,7 @@ class UserService:
     def addUser(self, id, password, username, phone, email, address):
         user = User.User(id, password, username, phone, email, address)
         self.userDao.addUser(user)
+        return self.userDao.login(id, password)
 
     def checkUser(self, id):
         return self.userDao.checkUser(id)
@@ -17,6 +18,7 @@ class UserService:
     def updateUserInfo(self, id, password, username, phone, email, address):
         user = User.User(id, password, username, phone, email, address)
         self.userDao.updateUserInfo(user)
+        return self.userDao.login(id, password)
 
     def deleteUser(self, id):
         self.userDao.deleteUser(id)
