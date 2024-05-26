@@ -1,5 +1,8 @@
+body {
+  text-align: center;
+}
 li {
-  display: inline;
+  display: inline-block;
 }
 ul {
   list-style-type: none;
@@ -7,10 +10,6 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
-}
-
-li {
-  float: left;
 }
 
 li a {
@@ -27,5 +26,5 @@ li a:hover {
 }
 
 .hero {
-  background: #3b5d50
+  text-align: center;
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
+    <link rel="stylesheet" href=" {{ url_for('static', filename='css/orderdetail.css') }}">
+</head>
+<body>
+    <ul class="nav">
+    <li><a href="/static">Home</a></li>
+      {% if session['user'] %}
+        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/viewCart">Cart</a></li>
+      {% endif %}
+      {% if not session['user'] %}
+        <li><a href="/viewLogin">Login & Register</a></li>
+      {% endif %}
+
+      <li><a href="/products?category=all">All products</a></li>
+      <li><a href="/products?category=OUTER">Outer</a></li>
+      <li><a href="/products?category=TOP">Top</a></li>
+      <li><a href="/products?category=BOTTOM">Bottom</a></li>
+      <li><a href="/products?category=ACC">Acc</a></li>
+  </ul>
+    <h2>주 문 내 용</h2>
+<div class="container">
+    <div class="item-list">
+        <div class="item-caption">
+            <div class="item-detail"><p>상품 이름</p></div>
+            <div class="item-detail"><p>상품 가격</p></div>
+            <div class="item-detail"><p>구매 수량</p></div>
+            <div class="item-detail"><p>합계 </p></div>
+        </div>
+        <hr class="caption-hr">
+        {% for product in orderDetails %}
+        <div class="item">
+            <div class="item-detail"><p>{{ product['name'] }}</p></div>
+            <div class="item-detail"><p>{{ product['price'] }}</p></div>
+            <div class="item-detail"><p>{{ product['quantity'] }}</p></div>
+            <div class="item-detail"><p>{{ product['totalprice'] }}</p></div>
+        </div>
+        <hr class="item-hr">
+        {% endfor %}
+        <div class="item">
+            <div class="item-detail"><p></p></div>
+            <div class="item-detail"><p></p></div>
+            <div class="item-detail-total"><p>총 합계</p></div>
+            <div class="item-detail-total"><p>{{ sequence['finaltotalprice'] }}</p></div>
+        </div>
+    </div>
+    <h2>주문자 정보</h2>
+    <div class="item-list">
+        <div class="item-caption-user">
+            <div class="item-detail-user"><p>구매날짜</p></div>
+            <div class="item-detail-user"><p>이름</p></div>
+            <div class="item-detail-user"><p>전화번호</p></div>
+            <div class="item-detail-user"><p>이메일</p></div>
+            <div class="item-detail-user"><p>배송지</p></div>
+        </div>
+        <div class="item-user">
+            <div class="item-detail-user"><p>{{ sequence['orderdate'] }}</p></div>
+            <div class="item-detail-user"><p>{{ sequence['shipname'] }}</p></div>
+            <div class="item-detail-user"><p>{{ sequence['shipphone'] }}</p></div>
+            <div class="item-detail-user"><p>{{ sequence['shipemail'] }}</p></div>
+            <div class="item-detail-user"><p>{{ sequence['shipaddress'] }}</p></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from DBConnect import DBConnect
+from DBConnnect import DBConnect
 from User import User
 
 class UserDAO:

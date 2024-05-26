@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from User import  UserController
 from Product import ProductController
 from Cart import CartController
@@ -18,3 +18,8 @@ app.register_blueprint(OrderController.bp)
 @app.route('/')
 def hello():
     return render_template('welcome.html')
+
+# 404 에러 핸들러 추가
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect('/')
