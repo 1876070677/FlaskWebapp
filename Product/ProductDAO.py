@@ -1,4 +1,5 @@
 from DBConnect import DBConnect
+from Product import Product
 
 class ProductDAO:
     def __init__(self):
@@ -26,10 +27,14 @@ class ProductDAO:
         cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 10, ))
         products = cursor.fetchall()
 
+        productList = []
+        for product in products:
+            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid']))
+
         cursor.close()
         connection.close()
 
-        return products, count
+        return productList, count
 
     def getAllProducts(self, page):
         connection = self.dbConnect.getConnection()
@@ -46,7 +51,11 @@ class ProductDAO:
         cursor.close()
         connection.close()
 
-        return products, count
+        productList = []
+        for product in products:
+            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid']))
+
+        return productList, count
 
     def getProductById(self, id):
         connection = self.dbConnect.getConnection()
@@ -58,4 +67,4 @@ class ProductDAO:
         cursor.close()
         connection.close()
 
-        return product
+        return Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid'])

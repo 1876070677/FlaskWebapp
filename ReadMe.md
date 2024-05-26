@@ -1,5 +1,5 @@
 # 초기 설정
-레포지토리에 DBConnect/DBConnect.py 파일을 생성해주세요.
+DBConnect/DBConnect.py 파일에서 DB 설정을 해주세요.
 ```python
 from mysql.connector import pooling
 import mysql.connector
@@ -38,3 +38,9 @@ main.py를 실행하고, configuration을 다음의 사진과 같이 맞춰주�
 ![img.png](img.png)
 
 이제 실행이 됩니다.
+
+# ERD
+![img.png](Diagram/ERD.jpg)
+
+# Class 다이어그램
+![img.png](Diagram/ClassDiagram.jpg)

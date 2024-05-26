@@ -1,13 +1,16 @@
-from Order import OrderDAO
+from Order import OrderDAO, Sequence, Order
+from datetime import datetime
 
 class OrderService:
     def __init__(self):
         self.orderDao = OrderDAO.OrderDAO()
 
     def createOrder(self, id, name, phone, email, address, cart, finalTotalPrice):
-        sequenceId = self.orderDao.createOrder(id, name, phone, email, address, finalTotalPrice)
+        sequence = Sequence.Sequence(id, datetime.today().strftime("%Y%m%d%H%M%S"), name, phone, email, address, finalTotalPrice)
+        sequenceId = self.orderDao.createOrder(sequence)
         for product in cart:
-            self.orderDao.addOrderDetails(sequenceId, cart[product]['id'], cart[product]['quantity'], cart[product]['totalPrice'])
+            order = Order.Order(sequenceId, cart[product]['id'], cart[product]['quantity'], cart[product]['totalPrice'], cart[product]['name'], cart[product]['price'])
+            self.orderDao.addOrderDetails(order)
 
         return sequenceId
 
@@ -15,11 +18,19 @@ class OrderService:
         return self.orderDao.permissionCheck(id, sequenceId)
 
     def getOrderDetails(self, orderId):
-        return self.orderDao.getOrderDetails(orderId)
+        orders = self.orderDao.getOrderDetails(orderId)
+        orderList = []
+        for order in orders:
+            orderList.append(order.toDict())
+        return orderList
 
     def getSequences(self, userid):
         sequences = self.orderDao.getSequences(userid)
 
-        if sequences is None:
+        if len(sequences) == 0:
             return []
-        return sequences
+
+        sequenceList = []
+        for sequence in sequences:
+            sequenceList.append(sequence.toDict())
+        return sequenceList

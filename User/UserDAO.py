@@ -4,7 +4,7 @@ from User import User
 class UserDAO:
     def __init__(self):
         self.dbConnect = DBConnect.DBConnect()
-        self.ADD_USER = "insert into user(id, password, name, phone, email, address, roleid) values(%s, %s, %s, %s, %s, %s, 2)"
+        self.ADD_USER = "insert into user(id, password, name, phone, email, address, roleid) values(%s, %s, %s, %s, %s, %s, %s)"
         self.CHECK_USER = "select * from user where id = %s"
         self.GET_USER = "select user.*, role.name as role from user, role where user.id=%s and user.roleid=role.id"
         self.UPDATE_USER = "update user set password=%s, name=%s, phone=%s, email=%s, address=%s where id=%s"
@@ -14,8 +14,9 @@ class UserDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.ADD_USER, (user.id, user.password, user.name, user.phone, user.email, user.address,))
+        cursor.execute(self.ADD_USER, (user.id, user.password, user.name, user.phone, user.email, user.address, user.role, ))
         connection.commit()
+
         cursor.close()
         connection.close()
 
@@ -38,7 +39,8 @@ class UserDAO:
         cursor.close()
         connection.close()
         if id == user['id'] and pw == user['password']:
-            return user
+            userData = User.User(user['id'], user['password'], user['name'], user['phone'], user['email'], user['address'], user['role'])
+            return userData
         return False
 
     def updateUserInfo(self, user):
