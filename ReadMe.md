@@ -1,5 +1,12 @@
 # Demo
 ## https://shop.shbox.kr
+
+# 인터프리터 설정
+파이참 환경에서 실행을 기준으로 합니다.
+
+파이참 setting - Project:FlaskWebapp에 들어가서 Python Interpreter 설정을 해주세요. 현재는 설정되어 있지 않습니다. 파이썬은 3.8 이상에서 정상 작동합니다. 파이썬 프로젝트에 인터프리터를 설정하는 방법은 검색을 통해 알아낼 수 있습니다.
+인터프리터 설정 이후에는 아래의 실행 단에서 설명하고 있는 필수 패키지들을 설치해주세요.
+
 # 초기 설정
 DBConnect/DBConnect.py 파일에서 DB 설정을 해주세요.
 ```python
