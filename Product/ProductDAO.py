@@ -24,7 +24,7 @@ class ProductDAO:
         count = cursor.fetchone()['count']
 
         # 실제 데이터 가져오기
-        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 10, ))
+        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 15, ))
         products = cursor.fetchall()
 
         productList = []
@@ -45,7 +45,7 @@ class ProductDAO:
         count = cursor.fetchone()['count']
 
         # 실제 데이터 가져오기
-        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 10,))
+        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 15,))
         products = cursor.fetchall()
 
         cursor.close()
