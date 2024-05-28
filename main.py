@@ -4,6 +4,9 @@ from Product import ProductController
 from Cart import CartController
 from Order import OrderController
 from flask_cors import CORS
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 app.secret_key="ABCD"
