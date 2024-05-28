@@ -26,6 +26,7 @@
 <div class="container">
     {% for product in productList %}
     <div class="item">
+        <img src="/static/thumbnail/{{ product['category'] }}/{{ product['filename'] }}" alt="[주문폭주]">
         <div class="textBox">
             <p class="textBox__name"> {{ product['name'] }}</p>
             <p class="textBox__price"> {{ product['price'] }} 원</p>

@@ -1,10 +1,12 @@
 class Product:
-    def __init__(self, id, name, price, desc, categoryId):
+    def __init__(self, id, name, price, desc, filename, categoryId, category):
         self.id = id
         self.name = name
         self.price = price
         self.description = desc
+        self.filename = filename
         self.categoryid = categoryId
+        self.category = category
 
     def toDict(self):
         dic = {
@@ -12,6 +14,8 @@ class Product:
             'name': self.name,
             'price': self.price,
             'description': self.description,
-            'categoryid': self.categoryid
+            'filename': self.filename,
+            'categoryid': self.categoryid,
+            'category': self.category
         }
         return dic

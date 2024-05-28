@@ -38,5 +38,5 @@ class ProductService:
 
     def getProductById(self, id, quantity):
         product = self.productDao.getProductById(id)
-        cartProduct = CartProduct.CartProduct(product.id, product.name, product.price, product.description, product.categoryid, quantity, int(product.price) * quantity)
+        cartProduct = CartProduct.CartProduct(product.id, product.name, product.price, product.description, product.filename, product.categoryid, product.category, quantity, int(product.price) * quantity)
         return cartProduct
