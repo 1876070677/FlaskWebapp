@@ -24,8 +24,8 @@ class DBConnect():
             pool_size=10,
             pool_reset_session=True,
             host='',
-            port=9000,
-            database='jiwonshop',
+            port=,
+            database='',
             user='',
             password='',
         )
