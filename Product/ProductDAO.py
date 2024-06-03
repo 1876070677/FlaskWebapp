@@ -6,10 +6,10 @@ class ProductDAO:
         self.dbConnect = DBConnect.DBConnect()
         self.GET_CATEGORYID = "select id from category where name=%s"
         self.GET_COUNT_BY_CATEGORY = "select count(*) as count from product where categoryid=%s"
-        self.GET_PRODUCTS_BY_CATEGORY = "select * from product where categoryid=%s limit 15 offset %s"
+        self.GET_PRODUCTS_BY_CATEGORY = "select product.*, category.name as category from product, category where categoryid=%s and product.categoryid=category.id limit 15 offset %s"
         self.GET_COUNT = "select count(*) as count from product"
-        self.GET_ALL_PRODUCTS = "select * from product limit 15 offset %s"
-        self.GET_PRODUCT = "select * from product where id=%s"
+        self.GET_ALL_PRODUCTS = "select product.*, category.name as category from product, category where product.categoryid=category.id limit 15 offset %s"
+        self.GET_PRODUCT = "select product.*, category.name as category from product,category where product.id=%s and product.categoryid=category.id "
 
     def getProductsByCategory(self, category, page):
         connection = self.dbConnect.getConnection()
@@ -24,12 +24,12 @@ class ProductDAO:
         count = cursor.fetchone()['count']
 
         # 실제 데이터 가져오기
-        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 10, ))
+        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 15, ))
         products = cursor.fetchall()
 
         productList = []
         for product in products:
-            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid']))
+            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['filename'], product['categoryid'], product['category']))
 
         cursor.close()
         connection.close()
@@ -45,7 +45,7 @@ class ProductDAO:
         count = cursor.fetchone()['count']
 
         # 실제 데이터 가져오기
-        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 10,))
+        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 15,))
         products = cursor.fetchall()
 
         cursor.close()
@@ -53,7 +53,7 @@ class ProductDAO:
 
         productList = []
         for product in products:
-            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid']))
+            productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['filename'], product['categoryid'], product['category']))
 
         return productList, count
 
@@ -67,4 +67,4 @@ class ProductDAO:
         cursor.close()
         connection.close()
 
-        return Product.Product(product['id'], product['name'], product['price'], product['description'], product['categoryid'])
+        return Product.Product(product['id'], product['name'], product['price'], product['description'], product['filename'], product['categoryid'], product['category'])

@@ -81,19 +81,20 @@ body {
 }
 
 .container {
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-flow: row wrap;
+  margin: 0 auto;
 }
 
 .item {
   width: 25%;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
   overflow: hidden;
-  padding: 5px 5px
+  padding: 5px 5px;
 }
 
 .textBox__description {
@@ -102,4 +103,9 @@ body {
 
 .qt {
   width: 30px;
+}
+
+img {
+  width:293px;
+  height:391px;
 }

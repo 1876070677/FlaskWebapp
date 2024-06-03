@@ -30,7 +30,6 @@
         <tbody>
         <tr>
             <th class="td_width_1">상품명</th>
-            <th class="tdwidth_1">상품 설명</th>
             <th class="td_width_2">가격</th>
             <th class="td_width_3">수량</th>
             <th class="td_width_2">합계</th>
@@ -40,8 +39,10 @@
         <tbody>
             {% for product in session['cart'] %}
                 <tr>
-                    <td class="td_width_0">{{ session['cart'][product]['name'] }}</td>
-                    <td class="td_width_1">{{ session['cart'][product]['description'] }}</td>
+                    <td class="td_width_0">
+                        <img src="/static/thumbnail/{{ session['cart'][product]['category'] }}/{{ session['cart'][product]['filename'] }}">
+                        <div>{{ session['cart'][product]['name'] }}</div>
+                    </td>
                     <td class="td_width_2 price_td">{{ session['cart'][product]['price'] }}</td>
                     <td class="td_width_3 price_td">
                         <form action="/updateQuantity" method="post">
@@ -62,7 +63,6 @@
         </tbody>
         <tbody>
             <tr>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td>총 결제 예상 금액</td>
