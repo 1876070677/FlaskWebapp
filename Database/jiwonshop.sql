@@ -24,8 +24,8 @@ CREATE TABLE product (
     name VARCHAR(255) NOT NULL,
     price INT NOT NULL,
     description VARCHAR(255) NOT NULL,
+    filename VARCHAR(64) NOT NULL,
     categoryid INT NOT NULL,
-    quantity INT NOT NULL,
     FOREIGN KEY (categoryid) REFERENCES category(id)
 ) ENGINE=INNODB;
 

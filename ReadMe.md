@@ -47,7 +47,7 @@ class DBConnect():
 4) 접속이 완료되면, 아무 데이터베이스를 하나 생성합니다. (```create database shoppingmall;```, shoppingmall 이라는 데이터베이스를 예시로 생성하였습니다)
 5) 해당 데이터베이스에 접근하여 작업을 수행하도록 합니다. (```use shoppingmall```)
 6) 프로젝트의 Database 폴더 안에 있는 jiwonshop.sql 파일 안의 내용을 전부 복사해서 붙여넣습니다. 또는 명령어를 통해 해당 파일을 mysql에서 실행합니다. (```source 프로젝트경로/FlaskWebapp/Database/jiwonshop.sql```)
-7) 다음으로는 상품 데이터들을 채워넣습니다. 마찬가지로 명령어를 통해 실행합니다. (```source 프로젝트경로/FlaskWebapp/Database/product.sql```)
+7) 다음으로는 상품 데이터들을 채워넣습니다. 마찬가지로 명령어를 통해 실행합니다. (```source 프로젝트경로/FlaskWebapp/Database/sample_product.sql```)
 8) 초기 설정 단계에서 DBConnect.py에 나한테 설치된 데이터베이스 정보를 입력합니다. 기본적으로 host는 'localhost', port는 '3306', database는 아까 생성한 데이터베이스 이름 'shoppingmall', user와 password는 mysql 아이디와 비밀번호를 입력해주면 됩니다.
 
 # 실행
@@ -56,7 +56,7 @@ class DBConnect():
 + flask_cors
 + mysql-connector-python
 
-main.py를 실행하고, configuration을 다음의 사진과 같이 맞춰주세요.
+main.py를 실행하고, configuration을 다음의 사진과 같이 맞춰주세요 (Working directory 제외)
 ![img.png](img.png)
 
 이제 실행이 됩니다.
