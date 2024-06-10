@@ -1,6 +1,59 @@
-div {
-    width: 70%;
-    margin: 0 auto;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+body {
+  align-items: center;
+  text-align: center;
+  background: white;
+  padding: 0;
+  margin: 0;
+  color: black;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.title-container {
+  width: 100%;
+  background: #ADD8E6;
+  color: black;
+  position: relative;
+  height: 70px;
+  display: flex;
+  align-item: center;
+  justify-content: center; /* 가운데 정렬 추가 */
+  padding: 0;
+  margin: 0;
+}
+
+.title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 38px;
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+  align-item: center;
+  margin: 0;
+
+}
+
+.content_subject {
+    width:70%;
+}
+
+button, button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #DEF1FF;
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px 0px gray;
+}
+
+button:hover, button1:hover {
+  background-color: #DEF1FF;
+  color: gray;
+}
+
+.login-register {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 img {

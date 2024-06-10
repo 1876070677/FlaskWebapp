@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/welcome.css') }}">
-    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2조-webApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}">
 </head>
 <body>
-  <h1>5조 - webapp</h1>
-  <ul>
-      <li><a href="/">Home</a></li>
-      {% if session['user'] %}
-        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/viewCart">Cart</a></li>
-      {% endif %}
-      {% if not session['user'] %}
-        <li><a href="/viewLogin">Login & Register</a></li>
-      {% endif %}
-
-      <li><a href="/products?category=all">All products</a></li>
-      <li><a href="/products?category=OUTER">Outer</a></li>
-      <li><a href="/products?category=TOP">Top</a></li>
-      <li><a href="/products?category=BOTTOM">Bottom</a></li>
-      <li><a href="/products?category=ACC">Acc</a></li>
-  </ul>
-    <div class="hero">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-7">
-                    <div class="hero-img-wrap">
-                        <img src="{{ url_for('static', filename='images/main_img.png') }}">
-                    </div>
-                </div>
-            </div>
+    <div class="marquee-container">
+        <div class="marquee">
+            2조 &nbsp; - &nbsp;정지원 &nbsp; 오연주 &nbsp; 김다솔 &nbsp; 손세은 &nbsp; 정대용 &nbsp; 고욱진
         </div>
+    </div>
+    <div class="title">
+        <li><a href="'/'">group-2</a></li>
+    </div>
+    <div class="login-register">
+        {% if session['user'] %}
+        <button id="viewUserInfo" onclick="window.location.href='/viewUserInfo'">{{session['user'].name}} mypage</button>
+        <button2 id="order" onclick="window.location.href='/viewOrderHistory'">주문 내역</button2>
+        <button id="logout" onclick="window.location.href='/logout'">Logout</button>
+        <button id="viewCart" onclick="window.location.href='/viewCart'">Cart</button>
+        {% endif %}
+        {% if not session['user'] %}
+        <button id="login" onclick="window.location.href='/viewLogin'">Login</button>
+        <button id="home" onclick="window.location.href='/'">Home</button>
+      {% endif %}
+    </div>
+    <ul>
+        <div class="menu">
+            <li><a href="/products?category=all">All products</a></li>
+            <li><a href="/products?category=OUTER">Outer</a></li>
+            <li><a href="/products?category=TOP">Top</a></li>
+            <li><a href="/products?category=BOTTOM">Bottom</a></li>
+            <li><a href="/products?category=ACC">Acc</a></li>
+        </div>
+    </ul>
+    <div class="hero-img-wrap">
+        <img src="{{ url_for('static', filename='images/home_main_image.gif') }}" alt="main image">
     </div>
 </body>
 </html>

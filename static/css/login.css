@@ -1,22 +1,102 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+body {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  background: white;
+  margin: 0; /* 브라우저 기본 여백 제거 */
+  padding: 0; /* 브라우저 기본 여백 제거 */
+}
+
+.title-container {
+  width:100%;
+  background: #ADD8E6;
+  color: black;
+  position: relative;
+  height: 80px;
+  display: flex;
+  align-item: center;
+  justify-content: center; /* 가운데 정렬 추가 */
+  padding: 0;
+  margin: 0;
+}
+
+.title {
+  display: inline-block;
+  align-item: center;
+  white-space: nowrap;
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid #ADD8E6;
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px 0px gray;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #DEF1FF;
+  color: gray;
+}
+
+button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #ADD8E6;
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px 0px gray;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+}
+
+button1:hover {
+  background-color: #DEF1FF;
+  color: gray;
+}
+
+button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid #ADD8E6;
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px 0px gray;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+button2:hover {
+  background-color: #DEF1FF;
+  color: gray;
+}
+
+body.gray-bg {
+  background: gray; /* Gray background color */
+}
 
 .login-page {
   width: 360px;
-  padding: 8% 0 0;
-  margin: auto;
+  padding: 0 0 0;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  color: black;
 }
+
 .form {
   position: relative;
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
+  margin: 0 auto;
+  padding: 30px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
+/* 입력 부분 배경 */
 .form input {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -26,73 +106,50 @@
   box-sizing: border-box;
   font-size: 14px;
 }
+
 .form button {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: black;
   width: 100%;
   border: 0;
   padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+
+.form button:hover, .form button:active, .form button:focus {
+  background: gray;
+  color: white; /*텍스트 색상*/
 }
+
 .form .message {
   margin: 15px 0 0;
-  color: #b3b3b3;
+  color: black;
   font-size: 12px;
 }
+
 .form .message a {
-  color: #4CAF50;
+  color: #0000FF;
   text-decoration: none;
 }
-/*.form .register-form {*/
-/*  display: none;*/
-/*}*/
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
-}
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
+
+
+.login-register a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000;
+  color: white;
   text-decoration: none;
+  border-radius: 5px;
+  margin-left: 10px;
 }
-.container .info span .fa {
-  color: #EF3B3A;
+
+.login-register a:hover {
+  background-color: #333;
 }
-body {
-  background: #76b852; /* fallback for old browsers */
-  background: rgb(141,194,111);
-  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+

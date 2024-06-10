@@ -7,23 +7,27 @@
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/order.css') }}">
 </head>
 <body>
-    <ul class="nav">
-    <li><a href="/static">Home</a></li>
-      {% if session['user'] %}
-        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/viewCart">Cart</a></li>
-      {% endif %}
-      {% if not session['user'] %}
-        <li><a href="/viewLogin">Login & Register</a></li>
-      {% endif %}
-
-      <li><a href="/products?category=all">All products</a></li>
-      <li><a href="/products?category=OUTER">Outer</a></li>
-      <li><a href="/products?category=TOP">Top</a></li>
-      <li><a href="/products?category=BOTTOM">Bottom</a></li>
-      <li><a href="/products?category=ACC">Acc</a></li>
-  </ul>
+    <div class="title-container">
+        <li class="title"><a href="/">group-2</a></li>
+        <div class="login-register">
+            {% if session['user'] %}
+            <button id="viewUserInfo" onclick="window.location.href='/viewUserInfo'">{{session['user'].name}} mypage</button>
+            <button id="logout" onclick="window.location.href='/logout'">Logout</button>
+            <button id="viewCart" onclick="window.location.href='/viewCart'">Cart</button>
+            {% endif %}
+            {% if not session['user'] %}
+            <button1 id="login" onclick="window.location.href='/viewLogin'">Login</button1>
+            <button1 id="register" onclick="window.location.href='/viewRegister'">Register</button1>
+            {% endif %}
+        </div>
+    </div>
+    <ul>
+        <li><a href="/products?category=all">All products</a></li>
+        <li><a href="/products?category=OUTER">Outer</a></li>
+        <li><a href="/products?category=TOP">Top</a></li>
+        <li><a href="/products?category=BOTTOM">Bottom</a></li>
+        <li><a href="/products?category=ACC">Acc</a></li>
+    </ul>
     <h2>주문 내역</h2>
 <div class="container">
     <div class="item-list">

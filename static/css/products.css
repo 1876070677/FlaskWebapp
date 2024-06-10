@@ -1,34 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 body {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 1px;
+  color: gray;
+  font-family: 'Times New Roman', Times, serif;
 }
-.nav {
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #ADD8E6;
+  color: black;
+  position: relative;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.title-navbar-container {
+  width: 100%;
+  background: white;
+  color: black;
+  font-weight: bold;
+  position: relative;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title {
+  font-size: 42px;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  background-color: #333;
+  display: flex;
+  gap: 10px;
 }
 
-.nav li {
+.navbar li {
   display: inline-block;
 }
 
-.nav li a {
+.navbar li a {
   display: block;
-  color: white;
+  color: black;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 20px;
   text-decoration: none;
 }
 
-/* Change the link color to #111 (black) on hover */
-.nav li a:hover {
-  background-color: #111;
+.navbar li a:hover {
+  color: gray;
+}
+
+.login-register {
+  display: flex;
+  gap: 10px;
+}
+
+.login-register button {
+  background-color: white;
+  color: black;
+  border: 2px solid #DEF1FF;
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px 0px gray;
+  font-family: 'Times New Roman', Times, serif;
+  cursor: pointer;
+}
+
+.login-register button:hover {
+  background-color: #DEF1FF;
+  color: gray;
+}
+
+.container {
+  width: 70%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.item {
+  width: 23%;
+  flex: 0 1 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+  margin: 10px;
+}
+
+.textBox__description {
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.qt {
+  width: 30px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .page {
-  text-align: center;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px
+
 }
 
 .pagination {
@@ -37,6 +149,7 @@ body {
   padding: 0;
   margin-top: 20px;
   text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .pagination li {
@@ -53,6 +166,7 @@ body {
   color: #96a0ad;
   line-height: 1.5;
 }
+
 .left:hover, .right:hover {
   color: #2e9cdf;
 }
@@ -73,6 +187,9 @@ body {
   height: 30px;
   line-height: 30px;
   border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal .num.active, .modal .num:active {
@@ -80,32 +197,7 @@ body {
   cursor: pointer;
 }
 
-.container {
-  width: 70%;
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 auto;
+.title, .textBox__name, .textBox__price, .textBox__description, .login-register button {
+  font-family: 'Times New Roman', Times, serif;
 }
 
-.item {
-  width: 25%;
-  flex: 0 1 auto;
-  border: 1px solid black;
-  border-collapse: collapse;
-  text-align: center;
-  overflow: hidden;
-  padding: 5px 5px;
-}
-
-.textBox__description {
-  overflow: hidden;
-}
-
-.qt {
-  width: 30px;
-}
-
-img {
-  width:293px;
-  height:391px;
-}

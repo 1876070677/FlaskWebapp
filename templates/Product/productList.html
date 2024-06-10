@@ -2,46 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/products.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}">
     <title>Products</title>
 </head>
 <body>
-<ul class="nav">
-    <li><a href="/">Home</a></li>
-      {% if session['user'] %}
-        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/viewCart">Cart</a></li>
-      {% endif %}
-      {% if not session['user'] %}
-        <li><a href="/viewLogin">Login & Register</a></li>
-      {% endif %}
-
+    <div class="marquee-container">
+        <div class="marquee">
+            2조 &nbsp; - &nbsp;정지원 &nbsp; 오연주 &nbsp; 김다솔 &nbsp; 손세은 &nbsp; 정대용 &nbsp; 고욱진
+        </div>
+    </div>
+    <div class="title">
+        <li><a href="'/'">group-2</a></li>
+    </div>
+    <div class="login-register">
+        {% if session['user'] %}
+        <button id="viewUserInfo" onclick="window.location.href='/viewUserInfo'">{{session['user'].name}} mypage</button>
+        <button2 id="order" onclick="window.location.href='/viewOrderHistory'">주문 내역</button2>
+        <button id="logout" onclick="window.location.href='/logout'">Logout</button>
+        <button id="viewCart" onclick="window.location.href='/viewCart'">Cart</button>
+        {% endif %}
+        {% if not session['user'] %}
+        <button id="login" onclick="window.location.href='/viewLogin'">Login</button>
+        <button id="home" onclick="window.location.href='/'">Home</button>
+        {% endif %}
+    </div>
+    <ul>
       <li><a href="/products?category=all">All products</a></li>
       <li><a href="/products?category=OUTER">Outer</a></li>
       <li><a href="/products?category=TOP">Top</a></li>
       <li><a href="/products?category=BOTTOM">Bottom</a></li>
       <li><a href="/products?category=ACC">Acc</a></li>
-  </ul>
-<div class="container">
-    {% for product in productList %}
-    <div class="item">
-        <img src="/static/thumbnail/{{ product['category'] }}/{{ product['filename'] }}" alt="[주문폭주]">
-        <div class="textBox">
-            <p class="textBox__name"> {{ product['name'] }}</p>
-            <p class="textBox__price"> {{ product['price'] }} 원</p>
-            <p class="textBox__description"> {{ product['description'] }}</p>
-            {% if session['user'] %}
-                <form class=textBox__input" action="/addCart" method="post">
+    </ul>
+    <div class="container">
+        {% for product in productList %}
+        <div class="item">
+            <img src="/static/thumbnail/{{ product['category'] }}/{{ product['filename'] }}" alt="[주문폭주]">
+            <div class="textBox">
+                <p class="textBox__name">{{ product['name'] }}</p>
+                <p class="textBox__price">{{ product['price'] }} 원</p>
+                <p class="textBox__description">{{ product['description'] }}</p>
+                {% if session['user'] %}
+                <form class="textBox__input" action="/addCart" method="post">
                     <input type="hidden" name="productId" value="{{ product['id'] }}">
                     <input class="qt" type="number" name="quantity" value="1">
                     <button>Add Cart</button>
                 </form>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
     <div class="page">
         <ul class="pagination modal">
             {% if currentPage > 1 %}

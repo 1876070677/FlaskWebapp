@@ -1,3 +1,4 @@
+<!--수정끝-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,40 +8,45 @@
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-    <ul>
-      <li><a href="/">Home</a></li>
-      {% if session['user'] %}
-        <li><a href="/viewUserInfo">{{session['user'].name}}</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/viewCart">Cart</a></li>
-      {% endif %}
-      {% if not session['user'] %}
-        <li><a href="/viewLogin">Login & Register</a></li>
-      {% endif %}
-
-      <li><a href="/products?category=all">All products</a></li>
-      <li><a href="/products?category=OUTER">Outer</a></li>
-      <li><a href="/products?category=TOP">Top</a></li>
-      <li><a href="/products?category=BOTTOM">Bottom</a></li>
-      <li><a href="/products?category=ACC">Acc</a></li>
-  </ul>
-    <div class="login-page">
-      <div class="form">
-        <form class="register-form" action="/updateUserInfo" method="post">
-            {% if message != '' %}
-                <span>{{message}}</span><br>
-            {% endif %}
-          <input type="text" name="id" placeholder="id" value="{{ session['user'].id }}" readonly/>
-          <input type="password" name="password" placeholder="password"/>
-          <input type="text" name="username" placeholder="username" value="{{ session['user'].name }}"/>
-            <input type="text" name="phone" placeholder="phone" value="{{ session['user'].phone }}"/>
-            <input type="text" name="email" placeholder="email" value="{{ session['user'].email }}"/>
-            <input type="text" name="address" placeholder="address" value="{{ session['user'].address }}"/>
-          <button>Update</button>
-            <p class="message">My <a href="/viewOrderHistory">orders</a></p>
-          <p class="message">Delete account? <a href="/deleteUser">Delete</a></p>
-        </form>
-      </div>
-    </div>
+     <div class="title-container">
+         <li class="title"><a href="/">group-2</a></li>
+         <div class="login-register">
+             {% if session['user'] %}
+             <button id="viewUserInfo" onclick="window.location.href='/viewUserInfo'">{{session['user'].name}} mypage</button>
+             <button2 id="order" onclick="window.location.href='/viewOrderHistory'">주문 내역</button2>
+             <button id="logout" onclick="window.location.href='/logout'">Logout</button>
+             <button id="viewCart" onclick="window.location.href='/viewCart'">Cart</button>
+             {% endif %}
+             {% if not session['user'] %}
+             <button1 id="login" onclick="window.location.href='/viewLogin'">Login</button1>
+             <button1 id="register" onclick="window.location.href='/viewRegister'">Register</button1>
+             {% endif %}
+         </div>
+     </div>
+     <ul>
+         <li><a href="/products?category=all">All products</a></li>
+         <li><a href="/products?category=OUTER">Outer</a></li>
+         <li><a href="/products?category=TOP">Top</a></li>
+         <li><a href="/products?category=BOTTOM">Bottom</a></li>
+         <li><a href="/products?category=ACC">Acc</a></li>
+     </ul>
+     <div class="login-page">
+         <div class="form">
+             <form class="register-form" action="/updateUserInfo" method="post">
+                 {% if message != '' %}
+                 <span>{{message}}</span><br>
+                 {% endif %}
+                 <p class="user information">회원 정보</p>
+                 <input type="text" name="id" placeholder="id" value="{{ session['user'].id }}" readonly/>
+                 <input type="password" name="password" placeholder="password"/>
+                 <input type="text" name="username" placeholder="username" value="{{ session['user'].name }}"/>
+                 <input type="text" name="phone" placeholder="phone" value="{{ session['user'].phone }}"/>
+                 <input type="text" name="email" placeholder="email" value="{{ session['user'].email }}"/>
+                 <input type="text" name="address" placeholder="address" value="{{ session['user'].address }}"/>
+                 <button>Update</button>
+                 <p class="message">Delete account? <a href="/deleteUser">Delete</a></p>
+             </form>
+         </div>
+     </div>
 </body>
 </html>
