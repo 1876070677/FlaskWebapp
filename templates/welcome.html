@@ -15,6 +15,11 @@
     <div class="title">
         <li><a href="'/'">group-2</a></li>
     </div>
+    {% if err %}
+        <div>
+            {{ err }}
+        </div>
+    {% endif %}
     <div class="login-register">
         {% if session['user'] %}
         <button id="viewUserInfo" onclick="window.location.href='/viewUserInfo'">{{session['user'].name}} mypage</button>

@@ -14,25 +14,30 @@ class OrderDAO:
     def addOrderDetails(self, order):
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
-
-        cursor.execute(self.ADD_ORDER_DETAILS, (order.orderId, order.productId, order.quantity, order.totalPrice, ))
-        connection.commit()
-
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(self.ADD_ORDER_DETAILS, (order.orderId, order.productId, order.quantity, order.totalPrice, ))
+            connection.commit()
+        except Exception as e:
+            raise Exception("주문 정보 추가 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
     def createOrder(self, sequence):
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.CREATE_ORDER, (sequence.id, sequence.orderdate, sequence.shipname, sequence.shipphone, sequence.shipemail, sequence.shipaddress, sequence.finalTotalPrice, ))
-        connection.commit()
+        try:
+            cursor.execute(self.CREATE_ORDER, (sequence.id, sequence.orderdate, sequence.shipname, sequence.shipphone, sequence.shipemail, sequence.shipaddress, sequence.finalTotalPrice, ))
+            connection.commit()
 
-        cursor.execute(self.LAST_INSERTED_ID, ('sequenceid', ))
-        sequenceId = cursor.fetchone()['sequenceid']
-
-        cursor.close()
-        connection.close()
+            cursor.execute(self.LAST_INSERTED_ID, ('sequenceid', ))
+            sequenceId = cursor.fetchone()['sequenceid']
+        except Exception as e:
+            raise Exception("주문 생성 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         return sequenceId
 
@@ -40,11 +45,14 @@ class OrderDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.PERMISSION_CHECK, (sequenceId, id, ))
-        sequence = cursor.fetchone()
-
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(self.PERMISSION_CHECK, (sequenceId, id, ))
+            sequence = cursor.fetchone()
+        except Exception as e:
+            raise Exception("주문자 정보 권한 확인 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         if sequence is None:
             return False
@@ -53,14 +61,17 @@ class OrderDAO:
     def getOrderDetails(self, orderId):
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
-
-        cursor.execute(self.GET_ORDER_DETAILS, (orderId, ))
-        order_details = cursor.fetchall()
-
-        cursor.close()
-        connection.close()
-
         orderList = []
+        try:
+            cursor.execute(self.GET_ORDER_DETAILS, (orderId, ))
+            order_details = cursor.fetchall()
+        except Exception as e:
+            raise Exception("주문 정보 상세 보기 실패")
+        finally:
+            cursor.close()
+            connection.close()
+
+
         for order in order_details:
             orderList.append(Order.Order(order['orderid'], order['productid'], order['quantity'], order['totalprice'], order['name'], order['price']))
         return orderList
@@ -69,11 +80,14 @@ class OrderDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.GET_SEQUENCES, (userid, ))
-        sequences = cursor.fetchall()
-
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(self.GET_SEQUENCES, (userid, ))
+            sequences = cursor.fetchall()
+        except Exception as e:
+            raise Exception("주문 정보 보기 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         sequenceList = []
         for sequence in sequences:
