@@ -15,24 +15,27 @@ class ProductDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        # 카테고리 아이디 가져오기
-        cursor.execute(self.GET_CATEGORYID, (category, ))
-        categoryId = cursor.fetchone()
+        try:
+            # 카테고리 아이디 가져오기
+            cursor.execute(self.GET_CATEGORYID, (category, ))
+            categoryId = cursor.fetchone()
 
-        # 데이터 수 가져오기
-        cursor.execute(self.GET_COUNT_BY_CATEGORY, (categoryId['id'], ))
-        count = cursor.fetchone()['count']
+            # 데이터 수 가져오기
+            cursor.execute(self.GET_COUNT_BY_CATEGORY, (categoryId['id'], ))
+            count = cursor.fetchone()['count']
 
-        # 실제 데이터 가져오기
-        cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 15, ))
-        products = cursor.fetchall()
+            # 실제 데이터 가져오기
+            cursor.execute(self.GET_PRODUCTS_BY_CATEGORY, (categoryId['id'], (page-1) * 15, ))
+            products = cursor.fetchall()
+        except Exception as e:
+            raise Exception("카테고리 별 조회 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         productList = []
         for product in products:
             productList.append(Product.Product(product['id'], product['name'], product['price'], product['description'], product['filename'], product['categoryid'], product['category']))
-
-        cursor.close()
-        connection.close()
 
         return productList, count
 
@@ -40,16 +43,19 @@ class ProductDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        # 데이터 수 가져오기
-        cursor.execute(self.GET_COUNT)
-        count = cursor.fetchone()['count']
+        try:
+            # 데이터 수 가져오기
+            cursor.execute(self.GET_COUNT)
+            count = cursor.fetchone()['count']
 
-        # 실제 데이터 가져오기
-        cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 15,))
-        products = cursor.fetchall()
-
-        cursor.close()
-        connection.close()
+            # 실제 데이터 가져오기
+            cursor.execute(self.GET_ALL_PRODUCTS, ((page - 1) * 15,))
+            products = cursor.fetchall()
+        except Exception as e:
+            raise Exception("상품 조회 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         productList = []
         for product in products:
@@ -61,10 +67,13 @@ class ProductDAO:
         connection = self.dbConnect.getConnection()
         cursor = connection.cursor(dictionary=True)
 
-        cursor.execute(self.GET_PRODUCT, (id, ))
-        product = cursor.fetchone()
-
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(self.GET_PRODUCT, (id, ))
+            product = cursor.fetchone()
+        except Exception as e:
+            raise Exception("상품 조회 실패")
+        finally:
+            cursor.close()
+            connection.close()
 
         return Product.Product(product['id'], product['name'], product['price'], product['description'], product['filename'], product['categoryid'], product['category'])

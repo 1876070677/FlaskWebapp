@@ -15,6 +15,8 @@ class UserService:
 
     def login(self, id, pw):
         user = self.userDao.login(id, pw)
+        if not user:
+            return False
         return user.toDict()
 
     def updateUserInfo(self, id, password, username, phone, email, address):
